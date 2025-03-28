@@ -72,6 +72,30 @@
     },
     {
       "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "be9a8e21-9bb6-4588-a77a-61bc2def0648",
+              "name": "user_prompt",
+              "type": "string",
+              "value": "=Analyze this image in exhaustive detail using this structure:\\n\\n1. **Comprehensive Inventory**\\n- List all visible objects with descriptors (size, color, position)\\n- Group related items hierarchically (primary subject → secondary elements → background)\\n- Note object conditions (intact/broken, new/aged)\\n\\n2. **Contextual Analysis**\\n- Identify probable setting/location with supporting evidence\\n- Determine time period/season through visual cues\\n- Analyze lighting conditions and shadow orientation\\n\\n3. **Spatial Relationships**\\n- Map object positions using grid coordinates (front/center/back, left/right)\\n- Describe size comparisons between elements\\n- Note overlapping/occluded objects\\n\\n4. **Textual Elements**\\n- Extract ALL text with font characteristics\\n- Identify logos/brands with confidence estimates\\n- Translate non-native text with cultural context\\n\\nFormat response in markdown with clear section headers and bullet points."
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "id": "6c8d977d-5f00-44f2-a0a8-dadbf887b02b",
+      "name": "General Image Prompt",
+      "type": "n8n-nodes-base.set",
+      "position": [
+        -320,
+        60
+      ],
+      "typeVersion": 3.4
+    },
+    {
+      "parameters": {
         "method": "POST",
         "url": "http://host.docker.internal:11434/api/chat",
         "sendHeaders": true,
@@ -89,7 +113,7 @@
         "options": {}
       },
       "id": "dc7c2be7-a486-4580-ada8-f53b6f9cd5d9",
-      "name": "Ollama LLM Request1",
+      "name": "Ollama LLM Request",
       "type": "n8n-nodes-base.httpRequest",
       "position": [
         120,
@@ -112,34 +136,10 @@
         "options": {}
       },
       "id": "4b28903f-33fc-4df0-bef5-9700cfaf4183",
-      "name": "Create Result Objects1",
+      "name": "Create Result Objects",
       "type": "n8n-nodes-base.set",
       "position": [
         360,
-        60
-      ],
-      "typeVersion": 3.4
-    },
-    {
-      "parameters": {
-        "assignments": {
-          "assignments": [
-            {
-              "id": "be9a8e21-9bb6-4588-a77a-61bc2def0648",
-              "name": "user_prompt",
-              "type": "string",
-              "value": "=Analyze this image in exhaustive detail using this structure:\\n\\n1. **Comprehensive Inventory**\\n- List all visible objects with descriptors (size, color, position)\\n- Group related items hierarchically (primary subject → secondary elements → background)\\n- Note object conditions (intact/broken, new/aged)\\n\\n2. **Contextual Analysis**\\n- Identify probable setting/location with supporting evidence\\n- Determine time period/season through visual cues\\n- Analyze lighting conditions and shadow orientation\\n\\n3. **Spatial Relationships**\\n- Map object positions using grid coordinates (front/center/back, left/right)\\n- Describe size comparisons between elements\\n- Note overlapping/occluded objects\\n\\n4. **Textual Elements**\\n- Extract ALL text with font characteristics\\n- Identify logos/brands with confidence estimates\\n- Translate non-native text with cultural context\\n\\nFormat response in markdown with clear section headers and bullet points."
-            }
-          ]
-        },
-        "includeOtherFields": true,
-        "options": {}
-      },
-      "id": "6c8d977d-5f00-44f2-a0a8-dadbf887b02b",
-      "name": "General Image Prompt1",
-      "type": "n8n-nodes-base.set",
-      "position": [
-        -320,
         60
       ],
       "typeVersion": 3.4
@@ -165,7 +165,7 @@
         60
       ],
       "id": "57457473-8037-45a9-bf85-bf0a964bfc4a",
-      "name": "Edit Fields1"
+      "name": "Edit Fields"
     }
   ],
   "connections": {
@@ -184,7 +184,7 @@
       "main": [
         [
           {
-            "node": "General Image Prompt1",
+            "node": "General Image Prompt",
             "type": "main",
             "index": 0
           }
@@ -195,36 +195,14 @@
       "main": [
         [
           {
-            "node": "Ollama LLM Request1",
+            "node": "Ollama LLM Request",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "Ollama LLM Request1": {
-      "main": [
-        [
-          {
-            "node": "Create Result Objects1",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Create Result Objects1": {
-      "main": [
-        [
-          {
-            "node": "Edit Fields1",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "General Image Prompt1": {
+    "General Image Prompt": {
       "main": [
         [
           {
@@ -235,7 +213,29 @@
         ]
       ]
     },
-    "Edit Fields1": {
+    "Ollama LLM Request": {
+      "main": [
+        [
+          {
+            "node": "Create Result Objects",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create Result Objects": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
       "main": [
         [
           {
