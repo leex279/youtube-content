@@ -1,0 +1,254 @@
+{
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "invoke_n8n_agent_images",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "db0f4c29-d777-4589-989d-b9a6fb778b91",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        -740,
+        60
+      ],
+      "webhookId": "4a839da9-b8a2-45f8-bcaf-c484f9a5912d"
+    },
+    {
+      "parameters": {
+        "operation": "binaryToPropery",
+        "binaryPropertyName": "image",
+        "options": {
+          "keepSource": "json"
+        }
+      },
+      "id": "3202eddb-8c72-44b9-9403-a939c24b051d",
+      "name": "Get Base64 String",
+      "type": "n8n-nodes-base.extractFromFile",
+      "position": [
+        -540,
+        60
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "be9a8e21-9bb6-4588-a77a-61bc2def0648",
+              "name": "body",
+              "type": "string",
+              "value": "={\n  \"model\": \"llama3.2-vision\",\n  \"messages\": [\n    {\n      \"role\": \"user\",\n      \"content\": \"{{ $json.user_prompt }}\",\n      \"images\": [ \"{{ $('Get Base64 String').item.json.data }}\" ]\n    }\n  ],\n  \"stream\": false\n}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "c57f4ac5-3842-4f69-9e52-d0d517af1ea4",
+      "name": "Create Request Body",
+      "type": "n8n-nodes-base.set",
+      "position": [
+        -100,
+        60
+      ],
+      "typeVersion": 3.4
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [
+        760,
+        60
+      ],
+      "id": "1a680fa8-9182-4045-8f1e-c5554de74e1f",
+      "name": "Respond to Webhook"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://host.docker.internal:11434/api/chat",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": " application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ $json.body }}",
+        "options": {}
+      },
+      "id": "dc7c2be7-a486-4580-ada8-f53b6f9cd5d9",
+      "name": "Ollama LLM Request1",
+      "type": "n8n-nodes-base.httpRequest",
+      "position": [
+        120,
+        60
+      ],
+      "typeVersion": 4.2
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "780086e5-2733-435a-90b5-fd10946ddd7a",
+              "name": "result",
+              "type": "object",
+              "value": "={{ $json }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "4b28903f-33fc-4df0-bef5-9700cfaf4183",
+      "name": "Create Result Objects1",
+      "type": "n8n-nodes-base.set",
+      "position": [
+        360,
+        60
+      ],
+      "typeVersion": 3.4
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "be9a8e21-9bb6-4588-a77a-61bc2def0648",
+              "name": "user_prompt",
+              "type": "string",
+              "value": "=Analyze this image in exhaustive detail using this structure:\\n\\n1. **Comprehensive Inventory**\\n- List all visible objects with descriptors (size, color, position)\\n- Group related items hierarchically (primary subject → secondary elements → background)\\n- Note object conditions (intact/broken, new/aged)\\n\\n2. **Contextual Analysis**\\n- Identify probable setting/location with supporting evidence\\n- Determine time period/season through visual cues\\n- Analyze lighting conditions and shadow orientation\\n\\n3. **Spatial Relationships**\\n- Map object positions using grid coordinates (front/center/back, left/right)\\n- Describe size comparisons between elements\\n- Note overlapping/occluded objects\\n\\n4. **Textual Elements**\\n- Extract ALL text with font characteristics\\n- Identify logos/brands with confidence estimates\\n- Translate non-native text with cultural context\\n\\nFormat response in markdown with clear section headers and bullet points."
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "id": "6c8d977d-5f00-44f2-a0a8-dadbf887b02b",
+      "name": "General Image Prompt1",
+      "type": "n8n-nodes-base.set",
+      "position": [
+        -320,
+        60
+      ],
+      "typeVersion": 3.4
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "d029646d-616a-48a5-aeba-79152e42046d",
+              "name": "text",
+              "value": "={{ $json.result.message.content }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        540,
+        60
+      ],
+      "id": "57457473-8037-45a9-bf85-bf0a964bfc4a",
+      "name": "Edit Fields1"
+    }
+  ],
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Get Base64 String",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Base64 String": {
+      "main": [
+        [
+          {
+            "node": "General Image Prompt1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create Request Body": {
+      "main": [
+        [
+          {
+            "node": "Ollama LLM Request1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Ollama LLM Request1": {
+      "main": [
+        [
+          {
+            "node": "Create Result Objects1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create Result Objects1": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "General Image Prompt1": {
+      "main": [
+        [
+          {
+            "node": "Create Request Body",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields1": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "meta": {
+    "instanceId": "558d88703fb65b2d0e44613bc35916258b0f0bf983c5d4730c00c424b77ca36a"
+  }
+}
