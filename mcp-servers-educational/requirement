@@ -1,0 +1,129 @@
+The youtube-mcp-server is a Model Context Protocol (MCP) server that facilitates interaction with YouTube's data through a standardized interface. It provides a suite of methods categorized under videos, channels, playlists, and transcripts, enabling comprehensive access to YouTube content. Below is a detailed breakdown of its functionalities:​
+
+📺 Video Management
+1. Retrieve Video Details
+Method: getVideo
+
+Parameters: videoId
+
+Functionality: Fetches metadata for a specific video, including title, description, duration, and more.​
+GitHub
+
+2. Search Videos
+Method: searchVideos
+
+Parameters: query, maxResults
+
+Functionality: Performs a search across YouTube videos based on the provided query.​
+GitHub
+GitHub
+
+3. List Channel Videos
+Method: listVideos
+
+Parameters: channelId, maxResults
+
+Functionality: Retrieves a list of videos uploaded by a specific channel.​
+GitHub
+GitHub
+
+4. Get Video Statistics
+Method: getVideoStatistics
+
+Parameters: videoId
+
+Functionality: Obtains statistics such as view count, like count, and comment count for a given video.​
+
+📄 Transcript Management
+1. Retrieve Video Transcript
+Method: getTranscript
+
+Parameters: videoId, language (optional)
+
+Functionality: Fetches the transcript of a video in the specified language.​
+
+2. Get Timestamped Captions
+Method: getTimestampedCaptions
+
+Parameters: videoId, language (optional)
+
+Functionality: Retrieves captions with timestamps for synchronization purposes.​
+GitHub
++5
+GitHub
++5
+GitHub
++5
+
+3. Search Within Transcripts
+Method: searchTranscripts
+
+Parameters: query, videoId
+
+Functionality: Searches for specific terms within a video's transcript.​
+GitHub
+
+📺 Channel Management
+1. Get Channel Details
+Method: getChannel
+
+Parameters: channelId
+
+Functionality: Retrieves metadata about a channel, including its title, description, and more.​
+
+2. List Channel Playlists
+Method: listPlaylists
+
+Parameters: channelId, maxResults
+
+Functionality: Fetches a list of playlists created by the specified channel.​
+GitHub
+
+3. Get Channel Statistics
+Method: getChannelStatistics
+
+Parameters: channelId
+
+Functionality: Obtains statistics such as subscriber count and total views for a channel.​
+GitHub
++1
+GitHub
++1
+
+4. Search Within Channel Content
+Method: searchChannelContent
+
+Parameters: channelId, query, maxResults
+
+Functionality: Performs a search within the content of a specific channel.​
+
+📂 Playlist Management
+1. List Playlist Items
+Method: getPlaylistItems
+
+Parameters: playlistId, maxResults
+
+Functionality: Retrieves videos contained within a specific playlist.​
+GitHub
+
+2. Get Playlist Details
+Method: getPlaylist
+
+Parameters: playlistId
+
+Functionality: Fetches metadata about a playlist, including its title and description.​
+GitHub
+
+3. Search Within Playlists
+Method: searchPlaylists
+
+Parameters: query, maxResults
+
+Functionality: Searches for playlists matching the provided query.​
+
+4. Get Playlist Video Transcripts
+Method: getPlaylistTranscripts
+
+Parameters: playlistId, language (optional)
+
+Functionality: Retrieves transcripts for all videos within a playlist.​

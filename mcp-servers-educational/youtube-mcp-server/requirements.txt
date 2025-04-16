@@ -1,0 +1,11 @@
+# MCP server dependencies
+mcp-python-sdk>=0.1.0
+fastapi>=0.95.0
+uvicorn>=0.21.0
+
+# YouTube API dependencies
+aiohttp>=3.8.4
+youtube-transcript-api>=0.6.0
+
+# Utility dependencies
+python-dotenv>=1.0.0
