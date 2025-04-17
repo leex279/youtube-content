@@ -11,6 +11,7 @@ A Model Context Protocol (MCP) server that facilitates interaction with YouTube'
 - **searchVideos**: Search for YouTube videos based on a query string
 - **listVideos**: List videos uploaded by a specific YouTube channel
 - **getVideoStatistics**: Get statistics for a specific YouTube video
+- **getVideoComments**: Retrieve comments for a specific YouTube video
 
 ### 📄 Transcript Management
 - **getTranscript**: Retrieve the transcript of a YouTube video
