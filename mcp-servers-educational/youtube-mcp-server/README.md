@@ -1,5 +1,7 @@
 # YouTube MCP Server
 
+> **DISCLAIMER**: This MCP server is for educational purposes only and is not production-ready. It is intended as a learning resource and demonstration of the Model Context Protocol integration with YouTube's API.
+
 A Model Context Protocol (MCP) server that facilitates interaction with YouTube's data through a standardized interface. This server provides a suite of methods categorized under videos, channels, playlists, and transcripts, enabling comprehensive access to YouTube content.
 
 ## Features
@@ -72,7 +74,7 @@ The server will start and listen for connections based on the configured transpo
 
 You can connect to the server using any MCP client. The server will be available at:
 
-- SSE transport: `http://<HOST>:<PORT>/mcp`
+- SSE transport: `http://<HOST>:<PORT>/sse`
 - STDIO transport: Standard input/output streams
 
 ### Example Tool Calls
